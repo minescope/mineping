@@ -32,7 +32,7 @@ export type JavaPingResponse = {
  * @param options The configuration for pinging Minecraft Java server.
  * 
  * ```js
- * import { pingJava } from 'mineping';
+ * import { pingJava } from '@minescope/mineping';
  * 
  * const data = await pingJava('mc.hypixel.net');
  * console.log(data);
@@ -48,6 +48,7 @@ export type JavaPingResponse = {
  * favicon: 'data:image/png;base64,iVBORw0KGg...
  }
  * ```
+ * @see [source](https://github.com/minescope/mineping/blob/8c84925ef7f5c420a7ef52740cba027491e82934/lib/bedrock.js#L158)
  */
 export function pingJava(host: string, options?: PingOptions): Promise<JavaPingResponse>;
 

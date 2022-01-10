@@ -28,7 +28,7 @@ export type BedrockPingResponse = {
  * @param host The Bedrock server address.
  * 
  * ```js
- * import { pingBedrock } from 'mineping';
+ * import { pingBedrock } from '@minescope/mineping';
  * 
  * const data = await pingBedrock('mco.mineplex.com');
  * console.log(data);
@@ -43,6 +43,7 @@ export type BedrockPingResponse = {
  *   gamemode: 'Survival'
  * }
  * ```
+ * @see [source](https://github.com/minescope/mineping/blob/24a48802300f988d3ae520edbeb4f3e12820dcc9/lib/java.js#L117)
  */
 export function pingBedrock(host: string, options?: PingOptions): Promise<BedrockPingResponse>;
 
