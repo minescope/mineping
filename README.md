@@ -14,12 +14,29 @@ Collect information about Minecraft (both Java and Bedrock) using **[Node.js](ht
 npm i @minescope/mineping
 ```
 
-## Example
+## Loading and configuration the module
+
+### ES Modules (ESM)
+
+```js
+import { pingJava, pingBedrock } from 'mineping';
+```
+
+### CommonJS
+`mineping` is an ESM-only module - you are not able to import it with `require()`.
+If you cannot switch to ESM, you can use the async `import()` function from CommonJS to load `mineping` asynchronously:
+
+```js
+const pingJava = (...args) => import('mineping').then(module => module.pingJava(...args));
+const pingBedrock = (...args) => import('mineping').then(module => module.pingBedrock(...args));
+```
+
+## Usage
 
 Ping a Java server with default options:
 
 ```js
-import { pingJava } from 'mineping'
+import { pingJava } from 'mineping';
 
 const data = await pingJava('mc.hypixel.net');
 console.log(data);
@@ -28,7 +45,7 @@ console.log(data);
 Ping a Bedrock server with custom options:
 
 ```js
-import { pingBedrock } from 'mineping'
+import { pingBedrock } from 'mineping';
 
 const data = await pingBedrock('mco.mineplex.com', {
     port: 19132,
