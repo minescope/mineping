@@ -35,7 +35,7 @@ const data = await pingBedrock('mco.mineplex.com', {
     timeout: 500
 })
 ```
-> More complex example can be found in the `examples` folder!
+> More complex example can be found in the `example` folder!
 
 ## Acknowledgements
 - [mcping](https://github.com/Scetch/mcping) crate for Rust
