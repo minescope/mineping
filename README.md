@@ -33,7 +33,7 @@ import { pingBedrock } from 'mineping'
 const data = await pingBedrock('mco.mineplex.com', {
     port: 19132,
     timeout: 500
-})
+});
 console.log(data);
 ```
 > More complex example can be found in the `example` folder!
