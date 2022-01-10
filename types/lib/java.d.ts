@@ -1,4 +1,4 @@
-import { PingOptions } from "..";
+import { PingOptions } from "./bedrock";
 
 export type SampleProp = {
     name: string,
