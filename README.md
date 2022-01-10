@@ -1,0 +1,36 @@
+# mineping
+Collect information about Minecraft (both Java and Bedrock) using **[Node.js](http://nodejs.org)**.
+
+## Description
+
+`mineping` is a Javasript library thar provides Minecraft server ping protocol implementation. It can be used to collect information about the server, such as MODT, current online, server icon (java edition only) and etc.
+
+## Requirements
+> **[Node.js](https://nodejs.org/) 14 or newer is required**
+
+## Example
+
+Ping a Java server with default options:
+
+```js
+import { pingJava } from 'mineping'
+
+const data = await pingJava('mc.hypixel.net');
+console.log(data);
+```
+
+Ping a Bedrock server with custom options:
+
+```js
+import { pingBedrock } from 'mineping'
+
+const data = await pingBedrock('mco.mineplex.com', {
+    port: 19132,
+    timeout: 500
+})
+```
+> More complex example can be found in the `examples` folder!
+
+## Acknowledgements
+- [mcping](https://github.com/Scetch/mcping) crate for Rust
+- [mcping-js](https://github.com/Cryptkeeper/mcping-js) library for quering Minecraft Java Edition servers

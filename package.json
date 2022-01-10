@@ -1,0 +1,21 @@
+{
+  "name": "mineping",
+  "version": "1.0.0",
+  "description": "Ping both Minecraft Bedrock and Java servers.",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "keywords": [],
+  "author": {
+    "name": "Timofey (xzeldon)",
+    "email": "contact@zeldon.ru",
+    "url": "https://zeldon.ru"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bytebuffer": "^5.0.1"
+  }
+}
