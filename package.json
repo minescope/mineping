@@ -10,6 +10,10 @@
     "email": "contact@zeldon.ru",
     "url": "https://zeldon.ru"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/minescope/mineping.git"
+  },
   "type": "module",
   "engines": {
     "node": ">=14"
