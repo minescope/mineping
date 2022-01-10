@@ -8,6 +8,12 @@ Collect information about Minecraft (both Java and Bedrock) using **[Node.js](ht
 ## Requirements
 > **[Node.js](https://nodejs.org/) 14 or newer is required**
 
+## Install
+
+```
+npm i @minescope/mineping
+```
+
 ## Example
 
 Ping a Java server with default options:
