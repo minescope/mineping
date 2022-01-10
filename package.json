@@ -1,6 +1,6 @@
 {
   "name": "@minescope/mineping",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ping both Minecraft Bedrock and Java servers.",
   "main": "index.js",
   "types": "types/index.d.ts",
