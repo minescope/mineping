@@ -19,16 +19,16 @@ npm i @minescope/mineping
 ### ES Modules (ESM)
 
 ```js
-import { pingJava, pingBedrock } from 'mineping';
+import { pingJava, pingBedrock } from '@minescope/mineping';
 ```
 
 ### CommonJS
-`mineping` is an ESM-only module - you are not able to import it with `require()`.
+`mineping` is an ESM-only module — you are not able to import it with `require()`.
 If you cannot switch to ESM, you can use the async `import()` function from CommonJS to load `mineping` asynchronously:
 
 ```js
-const pingJava = (...args) => import('mineping').then(module => module.pingJava(...args));
-const pingBedrock = (...args) => import('mineping').then(module => module.pingBedrock(...args));
+const pingJava = (...args) => import('@minescope/mineping').then(module => module.pingJava(...args));
+const pingBedrock = (...args) => import('@minescope/mineping').then(module => module.pingBedrock(...args));
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ const pingBedrock = (...args) => import('mineping').then(module => module.pingBe
 Ping a Java server with default options:
 
 ```js
-import { pingJava } from 'mineping';
+import { pingJava } from '@minescope/mineping';
 
 const data = await pingJava('mc.hypixel.net');
 console.log(data);
@@ -45,7 +45,7 @@ console.log(data);
 Ping a Bedrock server with custom options:
 
 ```js
-import { pingBedrock } from 'mineping';
+import { pingBedrock } from '@minescope/mineping';
 
 const data = await pingBedrock('mco.mineplex.com', {
     port: 19132,
