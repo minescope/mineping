@@ -18,8 +18,5 @@
   "engines": {
     "node": ">=14"
   },
-  "license": "MIT",
-  "dependencies": {
-    "bytebuffer": "^5.0.1"
-  }
+  "license": "MIT"
 }
