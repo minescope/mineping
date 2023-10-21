@@ -1,5 +1,20 @@
 import { PingOptions } from "./bedrock";
 
+/**
+ * JSON format chat component used for description field.
+ * @see https://wiki.vg/Chat
+ */
+export type ChatComponent = {
+    text: string;
+    bold?: boolean;
+    italic?: boolean;
+    underlined?: boolean;
+    strikethrough?: boolean;
+    obfuscated?: boolean;
+    color?: string;
+    extra?: ChatComponent[];
+};
+
 export type SampleProp = {
     name: string,
     id: string;
@@ -17,10 +32,12 @@ export type JavaPingResponse = {
     players: {
         max: number;
         online: number;
-        sample: SampleProp[];
+        sample?: SampleProp[];
     };
-    description: string;
-    favicon: string;
+    description: string | ChatComponent;
+    favicon?: string;
+    enforcesSecureChat?: boolean;
+    previewsChat?: boolean;
 };
 
 /**
