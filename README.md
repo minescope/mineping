@@ -1,6 +1,6 @@
 # mineping
 
-`mineping` is a Javasript library thar provides Minecraft server ping protocol implementation. It can be used to collect information about the server, such as MODT, current online, server icon (java edition only) and etc.
+This JavaScript library provides an implementation of the Minecraft server ping protocol. **It allows you to gather information about a Minecraft server**, such as the MOTD, current online players, server icon (Java Edition only), and more.
 
 Mirror on my [<img src="https://git.zeldon.ru/assets/img/logo.svg" align="center" width="20" height="20"/> Git](https://git.zeldon.ru/zeldon/mineping)
 
@@ -10,6 +10,8 @@ Mirror on my [<img src="https://git.zeldon.ru/assets/img/logo.svg" align="center
 
 ## Install
 
+To install `mineping`, simply run the following command:
+
 ```
 npm i @minescope/mineping
 ```
@@ -17,6 +19,7 @@ npm i @minescope/mineping
 ## Loading and configuration the module
 
 ### ES Modules (ESM)
+If you are using ES Modules, you can import the library like this:
 
 ```js
 import { pingJava, pingBedrock } from '@minescope/mineping';
@@ -58,6 +61,8 @@ console.log(data);
 > More complex example can be found in the `example` folder!
 
 ## Acknowledgements
+
+Special thanks to the following projects:
 
 - [mcping](https://github.com/Scetch/mcping) crate for Rust
 - [mcping-js](https://github.com/Cryptkeeper/mcping-js) library for quering Minecraft Java Edition servers
