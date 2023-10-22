@@ -1,2 +1,2 @@
-export { pingJava } from "./lib/java.js";
-export { pingBedrock } from "./lib/bedrock.js";
+export * from "./lib/java.js";
+export * from "./lib/bedrock.js";

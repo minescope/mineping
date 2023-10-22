@@ -1,10 +1,19 @@
 import { pingBedrock } from '../index.js';
 
-const [thehive, oasys, frizmine, breadix] = await Promise.allSettled([
-    pingBedrock('geo.hivebedrock.network'),
-    pingBedrock('oasys-pe.com'),
-    pingBedrock('frizmine.ru'),
-    pingBedrock('play.breadixpe.ru')
-]);
+const hosts = [
+    'play.timecrack.net',
+    'geo.hivebedrock.network',
+    'oasys-pe.com',
+    'play.galaxite.net',
+];
 
-console.dir({ thehive, oasys, frizmine, breadix }, { depth: 3 });
+const pingPromises = hosts.map(host => pingBedrock(host));
+const results = await Promise.allSettled(pingPromises);
+
+for (let result of results) {
+    if (result.status === 'rejected') {
+        console.error(result.reason);
+    }
+
+    console.log(result.value);
+}

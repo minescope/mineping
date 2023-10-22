@@ -43,7 +43,7 @@ export type BedrockPingResponse = {
  *   gamemode: 'Survival'
  * }
  * ```
- * @see [source](https://github.com/minescope/mineping/blob/24a48802300f988d3ae520edbeb4f3e12820dcc9/lib/java.js#L117)
+ * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/bedrock.js#L204)
  */
 export function pingBedrock(host: string, options?: PingOptions): Promise<BedrockPingResponse>;
 

@@ -65,7 +65,7 @@ export type JavaPingResponse = {
  * favicon: 'data:image/png;base64,iVBORw0KGg...
  }
  * ```
- * @see [source](https://github.com/minescope/mineping/blob/8c84925ef7f5c420a7ef52740cba027491e82934/lib/bedrock.js#L158)
+ * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/java.js#L117)
  */
 export function pingJava(host: string, options?: PingOptions): Promise<JavaPingResponse>;
 
