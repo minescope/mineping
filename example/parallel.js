@@ -13,6 +13,7 @@ const results = await Promise.allSettled(pingPromises);
 for (let result of results) {
     if (result.status === 'rejected') {
         console.error(result.reason);
+        break;
     }
 
     console.log(result.value);
