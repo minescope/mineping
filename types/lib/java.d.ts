@@ -1,4 +1,13 @@
-import { PingOptions } from "./bedrock";
+/**
+ * @param port The server port.
+ * @param timeout The read/write socket timeout.
+ * @param protocolVersion The protocol version.
+ */
+export type JavaPingOptions = {
+    port: number,
+    timeout: number,
+    protocolVersion: number;
+};
 
 /**
  * JSON format chat component used for description field.
@@ -67,5 +76,5 @@ export type JavaPingResponse = {
  * ```
  * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/java.js#L117)
  */
-export function pingJava(host: string, options?: PingOptions): Promise<JavaPingResponse>;
+export function pingJava(host: string, options?: JavaPingOptions): Promise<JavaPingResponse>;
 

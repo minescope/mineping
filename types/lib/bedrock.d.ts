@@ -2,7 +2,7 @@
  * @param port The server port.
  * @param timeout The read/write socket timeout.
  */
-export type PingOptions = {
+export type BedrockPingOptions = {
     port: number,
     timeout: number;
 };
@@ -45,5 +45,5 @@ export type BedrockPingResponse = {
  * ```
  * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/bedrock.js#L204)
  */
-export function pingBedrock(host: string, options?: PingOptions): Promise<BedrockPingResponse>;
+export function pingBedrock(host: string, options?: BedrockPingOptions): Promise<BedrockPingResponse>;
 
