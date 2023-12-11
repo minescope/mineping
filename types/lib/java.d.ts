@@ -4,9 +4,9 @@
  * @param protocolVersion The protocol version.
  */
 export type JavaPingOptions = {
-    port: number,
-    timeout: number,
-    protocolVersion: number;
+    port?: number | undefined,
+    timeout?: number | undefined,
+    protocolVersion?: number | undefined;
 };
 
 /**

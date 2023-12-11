@@ -3,8 +3,8 @@
  * @param timeout The read/write socket timeout.
  */
 export type BedrockPingOptions = {
-    port: number,
-    timeout: number;
+    port?: number | undefined,
+    timeout?: number | undefined;
 };
 
 export type BedrockPingResponse = {
@@ -26,6 +26,7 @@ export type BedrockPingResponse = {
  * The optional `options` argument can be an object with a `ping` (default is `19132`) or/and `timeout` (default is `5000`) property.
  * 
  * @param host The Bedrock server address.
+ * @param options The configuration for pinging Minecraft Bedrock server.
  * 
  * ```js
  * import { pingBedrock } from '@minescope/mineping';
