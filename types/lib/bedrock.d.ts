@@ -3,22 +3,24 @@
  * @param timeout The read/write socket timeout.
  */
 export type BedrockPingOptions = {
-    port?: number | undefined,
-    timeout?: number | undefined;
+    port?: number;
+    timeout?: number;
 };
 
 export type BedrockPingResponse = {
+    edition: string;
     name: string;
     version: {
-        gameVersion: string;
-        protocol: string;
+        protocolVersion: number;
+        minecraftVersion: string;
     };
     players: {
-        max: string;
-        online: string;
+        online: number;
+        max: number;
     };
-    description: string;
-    gamemode: string;
+    serverId: string;
+    mapName: string;
+    gameMode: string;
 };
 
 /**
