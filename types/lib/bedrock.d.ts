@@ -8,8 +8,9 @@ export type BedrockPingOptions = {
 };
 
 export type BedrockPingResponse = {
+    name: string;
     version: {
-        name: string;
+        gameVersion: string;
         protocol: string;
     };
     players: {
