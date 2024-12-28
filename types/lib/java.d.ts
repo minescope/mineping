@@ -4,49 +4,49 @@
  * @param protocolVersion The protocol version.
  */
 export type JavaPingOptions = {
-    port?: number | undefined,
-    timeout?: number | undefined,
-    protocolVersion?: number | undefined;
+	port?: number | undefined;
+	timeout?: number | undefined;
+	protocolVersion?: number | undefined;
 };
 
 /**
  * JSON format chat component used for description field.
- * @see https://wiki.vg/Chat
+ * @see https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Chat
  */
 export type ChatComponent = {
-    text: string;
-    bold?: boolean;
-    italic?: boolean;
-    underlined?: boolean;
-    strikethrough?: boolean;
-    obfuscated?: boolean;
-    color?: string;
-    extra?: ChatComponent[];
+	text: string;
+	bold?: boolean;
+	italic?: boolean;
+	underlined?: boolean;
+	strikethrough?: boolean;
+	obfuscated?: boolean;
+	color?: string;
+	extra?: ChatComponent[];
 };
 
 export type SampleProp = {
-    name: string,
-    id: string;
+	name: string;
+	id: string;
 };
 
 /**
  * `JSON Response` field of Response packet.
- * @see https://wiki.vg/Server_List_Ping#Response
+ * @see https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Server_List_Ping#Status_Response
  */
 export type JavaPingResponse = {
-    version: {
-        name: string;
-        protocol: number;
-    };
-    players: {
-        max: number;
-        online: number;
-        sample?: SampleProp[];
-    };
-    description: string | ChatComponent;
-    favicon?: string;
-    enforcesSecureChat?: boolean;
-    previewsChat?: boolean;
+	version: {
+		name: string;
+		protocol: number;
+	};
+	players: {
+		max: number;
+		online: number;
+		sample?: SampleProp[];
+	};
+	description: string | ChatComponent;
+	favicon?: string;
+	enforcesSecureChat?: boolean;
+	previewsChat?: boolean;
 };
 
 /**
@@ -76,5 +76,7 @@ export type JavaPingResponse = {
  * ```
  * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/java.js#L117)
  */
-export function pingJava(host: string, options?: JavaPingOptions): Promise<JavaPingResponse>;
-
+export function pingJava(
+	host: string,
+	options?: JavaPingOptions
+): Promise<JavaPingResponse>;
