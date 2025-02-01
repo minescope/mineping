@@ -7,6 +7,7 @@ export type JavaPingOptions = {
 	port?: number | undefined;
 	timeout?: number | undefined;
 	protocolVersion?: number | undefined;
+	virtualHost?: string | undefined;
 };
 
 /**
