@@ -1,53 +1,61 @@
 /**
- * @param port The server port.
- * @param timeout The read/write socket timeout.
+ * @param port The server port (1-65535).
+ * @param timeout The read/write socket timeout in milliseconds.
  */
 export type BedrockPingOptions = {
-    port?: number;
-    timeout?: number;
+	port?: number & { _brand: "Port" }; // 1-65535
+	timeout?: number & { _brand: "Timeout" }; // > 0
 };
 
 export type BedrockPingResponse = {
-    edition: string;
-    name: string;
-    version: {
-        protocolVersion: number;
-        minecraftVersion: string;
-    };
-    players: {
-        online: number;
-        max: number;
-    };
-    serverId: string;
-    mapName: string;
-    gameMode: string;
+	edition: string;
+	name: string;
+	version: {
+		protocolVersion: number;
+		minecraftVersion: string;
+	};
+	players: {
+		online: number;
+		max: number;
+	};
+	serverId: string;
+	mapName: string;
+	gameMode: string;
 };
 
 /**
  * Asynchronously ping Minecraft Bedrock server.
- * 
- * The optional `options` argument can be an object with a `ping` (default is `19132`) or/and `timeout` (default is `5000`) property.
- * 
+ *
  * @param host The Bedrock server address.
  * @param options The configuration for pinging Minecraft Bedrock server.
- * 
+ *
  * ```js
  * import { pingBedrock } from '@minescope/mineping';
- * 
+ *
  * const data = await pingBedrock('mco.mineplex.com');
  * console.log(data);
  * ```
- * 
+ *
  * The resulting output will resemble:
  * ```console
  * {
- *   version: { name: 'Mineplex', protocol: '475' },
- *   players: { max: '5207', online: '5206' },
- *   description: ' New Costumes',
- *   gamemode: 'Survival'
+ *   edition: "MCPE",
+ *   name: "Mineplex",
+ *   version: {
+ *     protocolVersion: 475,
+ *     minecraftVersion: "1.18.0"
+ *   },
+ *   players: {
+ *     online: 5206,
+ *     max: 5207
+ *   },
+ *   serverId: "12345678",
+ *   mapName: "Lobby",
+ *   gameMode: "Survival"
  * }
  * ```
- * @see [source](https://github.com/minescope/mineping/blob/915edbec9c9ad811459458600af3531ec0836911/lib/bedrock.js#L204)
  */
-export function pingBedrock(host: string, options?: BedrockPingOptions): Promise<BedrockPingResponse>;
-
+export function pingBedrock(
+	host: string,
+	options?: BedrockPingOptions
+): Promise<BedrockPingResponse>;
