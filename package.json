@@ -1,22 +1,22 @@
 {
-  "name": "@minescope/mineping",
-  "version": "1.6.0",
-  "description": "Ping both Minecraft Bedrock and Java servers.",
-  "main": "index.js",
-  "types": "types/index.d.ts",
-  "keywords": [],
-  "author": {
-    "name": "Timofey (xzeldon)",
-    "email": "contact@zeldon.ru",
-    "url": "https://zeldon.ru"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/minescope/mineping.git"
-  },
-  "type": "module",
-  "engines": {
-    "node": ">=14"
-  },
-  "license": "MIT"
+	"name": "@minescope/mineping",
+	"version": "1.6.1",
+	"description": "Ping both Minecraft Bedrock and Java servers.",
+	"main": "index.js",
+	"types": "types/index.d.ts",
+	"keywords": [],
+	"author": {
+		"name": "Timofey (xzeldon)",
+		"email": "contact@zeldon.ru",
+		"url": "https://zeldon.ru"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/minescope/mineping.git"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=14"
+	},
+	"license": "MIT"
 }
