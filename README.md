@@ -16,13 +16,16 @@ To install `mineping`, simply run the following command:
 npm i @minescope/mineping
 ```
 
+> To install _beta_ version (if available), run: `npm i @minescope/mineping@next`
+
 ## Loading and configuration the module
 
 ### ES Modules (ESM)
+
 If you are using ES Modules, you can import the library like this:
 
 ```js
-import { pingJava, pingBedrock } from '@minescope/mineping';
+import { pingJava, pingBedrock } from "@minescope/mineping";
 ```
 
 ### CommonJS
@@ -31,8 +34,10 @@ import { pingJava, pingBedrock } from '@minescope/mineping';
 If you cannot switch to ESM, you can use the async `import()` function from CommonJS to load `mineping` asynchronously:
 
 ```js
-const pingJava = (...args) => import('@minescope/mineping').then(module => module.pingJava(...args));
-const pingBedrock = (...args) => import('@minescope/mineping').then(module => module.pingBedrock(...args));
+const pingJava = (...args) =>
+	import("@minescope/mineping").then((module) => module.pingJava(...args));
+const pingBedrock = (...args) =>
+	import("@minescope/mineping").then((module) => module.pingBedrock(...args));
 ```
 
 ## Usage
@@ -40,20 +45,20 @@ const pingBedrock = (...args) => import('@minescope/mineping').then(module => mo
 Ping a Java server with default options:
 
 ```js
-import { pingJava } from '@minescope/mineping';
+import { pingJava } from "@minescope/mineping";
 
-const data = await pingJava('mc.hypixel.net');
+const data = await pingJava("mc.hypixel.net");
 console.log(data);
 ```
 
 Ping a Bedrock server with custom options:
 
 ```js
-import { pingBedrock } from '@minescope/mineping';
+import { pingBedrock } from "@minescope/mineping";
 
-const data = await pingBedrock('mco.mineplex.com', {
-    port: 19132,
-    timeout: 500
+const data = await pingBedrock("mco.mineplex.com", {
+	port: 19132,
+	timeout: 500,
 });
 console.log(data);
 ```
