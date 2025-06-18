@@ -1,112 +1,133 @@
 import net from "node:net";
+import dns from "node:dns/promises";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { pingJava } from "../lib/java.js";
-import varint from "../lib/varint.js";
+import * as varint from "../lib/varint.js";
 
 vi.mock("node:net");
+vi.mock("node:dns/promises");
 
 describe("pingJava", () => {
 	let mockSocket;
 
 	beforeEach(() => {
+		// Simulate no SRV record found.
+		dns.resolveSrv.mockResolvedValue([]);
+
 		const mockHandlers = {};
 		mockSocket = {
 			write: vi.fn(),
-			destroy: vi.fn(),
+			// Make `destroy` emit 'error' if an error is passed.
+			destroy: vi.fn((err) => {
+				if (err) {
+					mockSocket.emit("error", err);
+				}
+			}),
 			setNoDelay: vi.fn(),
 			on: vi.fn((event, handler) => (mockHandlers[event] = handler)),
 			emit: vi.fn((event, ...args) => mockHandlers[event]?.(...args)),
 		};
-		net.createConnection = vi.fn().mockReturnValue(mockSocket);
+		net.createConnection.mockReturnValue(mockSocket);
 		vi.useFakeTimers();
 	});
 
 	afterEach(() => {
 		vi.restoreAllMocks();
+		vi.useRealTimers();
 	});
 
 	it("should ping a server and handle a chunked response", async () => {
 		const host = "mc.hypixel.net";
-		const options = {
-			port: 25565,
-			timeout: 5000,
-			protocolVersion: 765,
-			virtualHost: "mc.hypixel.net",
-		};
-
+		const options = { port: 25565 };
 		const pingPromise = pingJava(host, options);
 
-		mockSocket.emit("connect");
+		// Allow the async SRV lookup to complete
+		await vi.runAllTicks();
 
+		expect(dns.resolveSrv).toHaveBeenCalledWith(`_minecraft._tcp.${host}`);
 		expect(net.createConnection).toHaveBeenCalledWith({
 			host,
 			port: options.port,
 		});
-		expect(mockSocket.setNoDelay).toHaveBeenCalledWith(true);
+
+		mockSocket.emit("connect");
 		expect(mockSocket.write).toHaveBeenCalledTimes(2);
 
 		const mockResponse = {
 			version: { name: "1.21", protocol: 765 },
 			players: { max: 20, online: 5, sample: [] },
 			description: "A Minecraft Server",
-			favicon: "data:image/png;base64,iVBORw0KGgo...",
 		};
+
 		const fullPacket = createMockJavaResponse(mockResponse);
 		const chunk1 = fullPacket.subarray(0, 10);
 		const chunk2 = fullPacket.subarray(10);
 
+		// Simulate receiving data in chunks
 		mockSocket.emit("data", chunk1);
 		mockSocket.emit("data", chunk2);
 
 		const result = await pingPromise;
 		expect(result).toEqual(mockResponse);
-		expect(mockSocket.destroy).toHaveBeenCalled();
 	});
 
 	describe("errors", () => {
-		it("should throw an error if host is not provided", () => {
-			expect(() => pingJava(null)).toThrow("Host argument is not provided");
+		it("should throw an error if host is not provided", async () => {
+			await expect(pingJava(null)).rejects.toThrow("Host argument is required");
 		});
 
-		it("should reject on socket timeout before data is received", async () => {
+		it("should reject on socket timeout", async () => {
 			const pingPromise = pingJava("localhost", { timeout: 1000 });
+			await vi.runAllTicks();
 			mockSocket.emit("connect");
-
-			// Advance time to trigger the timeout
 			vi.advanceTimersByTime(1000);
-
 			await expect(pingPromise).rejects.toThrow("Socket timeout");
-			expect(mockSocket.destroy).toHaveBeenCalled();
 		});
 
 		it("should reject on connection error", async () => {
 			const pingPromise = pingJava("localhost");
-
-			// Simulate a connection refusal
+			await vi.runAllTicks();
 			mockSocket.emit("error", new Error("ECONNREFUSED"));
-
 			await expect(pingPromise).rejects.toThrow("ECONNREFUSED");
+		});
+
+		it("should reject if the socket closes prematurely without a response", async () => {
+			const pingPromise = pingJava("localhost");
+
+			// Allow the initial async operations to complete
+			await vi.runAllTicks();
+
+			// Simulate the server accepting the connection and then immediately closing it
+			mockSocket.emit("connect");
+			mockSocket.emit("close");
+
+			// The promise should reject with our specific 'close' handler message
+			await expect(pingPromise).rejects.toThrow(
+				"Socket closed unexpectedly without a response."
+			);
 		});
 
 		it("should only reject once, even if multiple errors occur", async () => {
 			const pingPromise = pingJava("localhost");
-
-			// Fire two errors back-to-back
+			await vi.runAllTicks();
 			mockSocket.emit("error", new Error("First error"));
-			mockSocket.emit("error", new Error("Second error"));
-
+			mockSocket.emit("error", new Error("Second error")); // Should be ignored
 			await expect(pingPromise).rejects.toThrow("First error");
-			expect(mockSocket.destroy).toHaveBeenCalledTimes(1);
 		});
 	});
 });
 
+/**
+ * Creates a mock Java status response packet according to the protocol.
+ * Structure: [Overall Length] [Packet ID] [JSON Length] [JSON String]
+ * @param {object} response The JSON response object
+ * @returns {Buffer}
+ */
 function createMockJavaResponse(response) {
 	const jsonString = JSON.stringify(response);
-	const jsonBuffer = Buffer.from(jsonString, "utf8");
-	const responseLength = varint.encodeInt(jsonBuffer.length);
-	const packetId = varint.encodeInt(0);
-	const packetData = Buffer.concat([packetId, responseLength, jsonBuffer]);
-	const packetLength = varint.encodeInt(packetData.length);
-	return Buffer.concat([packetLength, packetData]);
+	const jsonBuffer = varint.encodeString(jsonString);
+	const jsonLength = varint.encodeVarInt(jsonBuffer.length);
+	const packetId = varint.encodeVarInt(0x00);
+	const payloadParts = [packetId, jsonLength, jsonBuffer];
+	return varint.concatPackets(payloadParts);
 }

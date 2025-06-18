@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import varint from "../lib/varint.js";
+import * as varint from "../lib/varint.js";
 
 describe("varint.js", () => {
 	it("should encode and decode integers symmetrically (round-trip)", () => {
@@ -16,8 +16,8 @@ describe("varint.js", () => {
 		];
 
 		testValues.forEach((value) => {
-			const encoded = varint.encodeInt(value);
-			const decoded = varint.decodeInt(encoded, 0);
+			const encoded = varint.encodeVarInt(value);
+			const { value: decoded } = varint.decodeVarInt(encoded, 0);
 			expect(decoded, `Value ${value} failed round-trip`).toBe(value);
 		});
 	});
@@ -25,23 +25,15 @@ describe("varint.js", () => {
 	it("should decode an integer from a non-zero offset", () => {
 		// [255 (invalid varint), 128 (valid varint), 127 (valid varint)]
 		const buffer = Buffer.from([0xff, 0x80, 0x01, 0x7f]);
-		expect(varint.decodeInt(buffer, 1)).toBe(128);
+		const { value: decoded } = varint.decodeVarInt(buffer, 1);
+		expect(decoded).toBe(128);
 	});
 
 	it("should throw an error for a malformed varint that is too long", () => {
 		const invalidBuffer = Buffer.from([0x80, 0x80, 0x80, 0x80, 0x80, 0x80]);
-		expect(() => varint.decodeInt(invalidBuffer, 0)).toThrow(
-			"VarInt is too big"
+		expect(() => varint.decodeVarInt(invalidBuffer, 0)).toThrow(
+			"VarInt is too big or malformed"
 		);
-	});
-
-	it("should correctly predict the encoded length of a varint", () => {
-		const boundaries = [0, 127, 128, 16383, 16384, 2097151, 2097152];
-		boundaries.forEach((value) => {
-			const predictedLength = varint.decodeLength(value);
-			const actualLength = varint.encodeInt(value).length;
-			expect(predictedLength).toBe(actualLength);
-		});
 	});
 
 	it("should encode 16-bit unsigned shorts in big-endian format", () => {
@@ -50,27 +42,20 @@ describe("varint.js", () => {
 		expect(varint.encodeUShort(65535)).toEqual(Buffer.from([0xff, 0xff]));
 	});
 
-	it("should correctly assemble and parse a Minecraft handshake packet", () => {
-		const protocolVersion = -1;
-		const virtualHost = "mc.example.com";
-		const port = 25565;
-
-		const payload = Buffer.concat([
-			varint.encodeInt(0),
-			varint.encodeInt(protocolVersion),
-			varint.encodeInt(virtualHost.length),
-			varint.encodeString(virtualHost),
-			varint.encodeUShort(port),
-			varint.encodeInt(1),
-		]);
-
-		const finalPacket = varint.concat([payload]);
-
-		const decodedPacketLength = varint.decodeInt(finalPacket, 0);
+	it("should correctly assemble a Minecraft packet with a length prefix", () => {
+		const payloadParts = [
+			varint.encodeVarInt(0), // protocol
+			varint.encodeString("mc.example.com"), // host
+			varint.encodeUShort(25565), // port
+		];
+		const payload = Buffer.concat(payloadParts);
+		const finalPacket = varint.concatPackets(payloadParts);
+		const { value: decodedPacketLength, bytesRead } = varint.decodeVarInt(
+			finalPacket,
+			0
+		);
 		expect(decodedPacketLength).toBe(payload.length);
-
-		const lengthOfPacketLength = varint.decodeLength(decodedPacketLength);
-		const decodedPayload = finalPacket.subarray(lengthOfPacketLength);
+		const decodedPayload = finalPacket.subarray(bytesRead);
 		expect(decodedPayload).toEqual(payload);
 	});
 });
