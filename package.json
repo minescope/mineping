@@ -1,6 +1,6 @@
 {
 	"name": "@minescope/mineping",
-	"version": "1.7.0-beta.0",
+	"version": "1.7.0-beta.1",
 	"description": "Ping both Minecraft Bedrock and Java servers.",
 	"main": "index.js",
 	"type": "module",
@@ -22,6 +22,9 @@
 	},
 	"engines": {
 		"node": ">=14"
+	},
+	"dependencies": {
+		"debug": "^4.4.1"
 	},
 	"devDependencies": {
 		"vitest": "^3.2.3"
