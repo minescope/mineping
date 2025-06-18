@@ -7,7 +7,8 @@
 	"types": "types/index.d.ts",
 	"scripts": {
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit"
 	},
 	"repository": {
 		"type": "git",
@@ -27,6 +28,9 @@
 		"debug": "^4.4.1"
 	},
 	"devDependencies": {
+		"@types/debug": "^4.1.12",
+		"@types/node": "^24.0.3",
+		"typescript": "^5.8.3",
 		"vitest": "^3.2.3"
 	}
 }
