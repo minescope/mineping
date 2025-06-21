@@ -1,6 +1,6 @@
 {
 	"name": "@minescope/mineping",
-	"version": "1.7.0-beta.1",
+	"version": "1.7.0-beta.2",
 	"description": "Ping both Minecraft Bedrock and Java servers.",
 	"main": "index.js",
 	"type": "module",
@@ -16,7 +16,15 @@
 		"url": "git://github.com/minescope/mineping.git"
 	},
 	"license": "MIT",
-	"keywords": [],
+	"keywords": [
+		"minecraft",
+		"raknet",
+		"node",
+		"mcpe",
+		"mcbe",
+		"ping",
+		"bedrock"
+	],
 	"author": {
 		"name": "Timofey Gelazoniya",
 		"email": "timofey@z4n.me",
