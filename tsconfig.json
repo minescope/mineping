@@ -1,14 +1,10 @@
 {
+	"include": ["lib/**/*.js", "index.js"],
 	"compilerOptions": {
 		"allowJs": true,
-		"checkJs": true,
-		"noEmit": true,
-		"strict": true,
-		"moduleResolution": "node",
-		"target": "ES2022",
-		"lib": ["ES2022"],
-		"esModuleInterop": true
-	},
-	"include": ["lib", "index.js"],
-	"exclude": ["node_modules"]
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outDir": "types",
+		"removeComments": false
+	}
 }
