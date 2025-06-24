@@ -125,8 +125,10 @@ describe("bedrock.js", () => {
 	});
 
 	describe("errors", () => {
-		it("should throw an error if host is not provided", () => {
-			expect(() => pingBedrock(null)).toThrow("Host argument is required");
+		it("should throw an error if host is not provided", async () => {
+			await expect(pingBedrock(null)).rejects.toThrow(
+				"Host argument is required"
+			);
 		});
 
 		it("should reject on socket timeout", async () => {
@@ -167,7 +169,7 @@ function createMockPongPacket(motd) {
 	const packet = Buffer.alloc(35 + motdBuffer.length);
 	packet.writeUInt8(0x1c, 0);
 	packet.writeBigInt64LE(BigInt(Date.now()), 1);
-	Buffer.from("00ffff00fefefefefdfdfdfd12345678", "hex").copy(packet, 17);
+	Buffer.from("00ffff00fefefefefdfdfdfd12345678", "hex").copy(packet, 9);
 	packet.writeUInt16BE(motdBuffer.length, 33);
 	motdBuffer.copy(packet, 35);
 	return packet;

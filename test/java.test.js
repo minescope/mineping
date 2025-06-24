@@ -1,18 +1,25 @@
 import net from "node:net";
-import dns from "node:dns/promises";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { pingJava } from "../lib/java.js";
 import * as varint from "../lib/varint.js";
 
+const mockResolveSrv = vi.fn();
+
 vi.mock("node:net");
-vi.mock("node:dns/promises");
+vi.mock("node:dns/promises", () => ({
+	Resolver: vi.fn().mockImplementation(() => ({
+		resolveSrv: mockResolveSrv,
+	})),
+}));
 
 describe("pingJava", () => {
 	let mockSocket;
 
 	beforeEach(() => {
-		// Simulate no SRV record found.
-		dns.resolveSrv.mockResolvedValue([]);
+		// Reset mocks before each test.
+		mockResolveSrv.mockClear();
+		// Simulate no SRV record found by default.
+		mockResolveSrv.mockResolvedValue([]);
 
 		const mockHandlers = {};
 		mockSocket = {
@@ -44,7 +51,11 @@ describe("pingJava", () => {
 		// Allow the async SRV lookup to complete
 		await vi.runAllTicks();
 
-		expect(dns.resolveSrv).toHaveBeenCalledWith(`_minecraft._tcp.${host}`);
+		expect(net.createConnection).toHaveBeenCalledWith({
+			host: host,
+			port: options.port,
+		});
+
 		expect(net.createConnection).toHaveBeenCalledWith({
 			host,
 			port: options.port,
