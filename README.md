@@ -40,7 +40,7 @@ import { pingJava } from "@minescope/mineping";
 const data = await pingJava("0.0.0.0");
 console.log(data)
 ```
-```json
+```js
 {
   version: { name: '1.21.5', protocol: 770 },
   enforcesSecureChat: true,
@@ -56,7 +56,7 @@ import { pingBedrock } from "@minescope/mineping";
 const data = await pingBedrock("0.0.0.0");
 console.log(data)
 ```
-```json
+```js
 {
   edition: 'MCPE',
   name: 'Dedicated Server',
