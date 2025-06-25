@@ -86,31 +86,31 @@ function shouldShowHelp(args) {
 
 function printHelp() {
 	console.log(`node cli.js [..]
-    A simple to use, efficient, and full-featured Minecraft server info parser!
-    
-    USAGE:
-        node cli.js [OPTIONS] --host <HOST> --port <PORT> --timeout <TIMEOUT>
-        
-    OPTIONS:
-        -j  Use for Minecraft Java Edition
-        -b  Use for Minecraft Bedrock Edition
-        -h, --help  Show this help message
-        
-        --host     The server address (required)
-        --port     The server port (default: ${JAVA_DEFAULT_PORT} for Java, ${BEDROCK_DEFAULT_PORT} for Bedrock)
-        --timeout  The socket timeout in milliseconds (default: ${DEFAULT_TIMEOUT})
-        
-        P.S. Don't use -j and -b at the same time!`);
+	A simple to use, efficient, and full-featured Minecraft server info parser!
+	
+	USAGE:
+		node cli.js [OPTIONS] --host <HOST> --port <PORT> --timeout <TIMEOUT>
+		
+	OPTIONS:
+		-j  Use for Minecraft Java Edition
+		-b  Use for Minecraft Bedrock Edition
+		-h, --help  Show this help message
+		
+		--host     The server address (required)
+		--port     The server port (default: ${JAVA_DEFAULT_PORT} for Java, ${BEDROCK_DEFAULT_PORT} for Bedrock)
+		--timeout  The socket timeout in milliseconds (default: ${DEFAULT_TIMEOUT})
+		
+		P.S. Don't use -j and -b at the same time!`);
 }
 
 function printInterestingFacts() {
 	console.log(`Some interesting facts about MOTDs on bedrock:
-    - so far they seem to exclusively use legacy color codes
-    - the random style has a special impl for periods, they turn into animated
-    colons that warp up and down rapidly
-    - motd_2 is ignored? client displays "motd_1 - v{version}", where the
-    appended version text is considered part of motd_1 for color code processing
-    - motd_2 seems to mainly be used to return the server software in use (e.g. PocketMine-MP)`);
+	- so far they seem to exclusively use legacy color codes
+	- the random style has a special impl for periods, they turn into animated
+	colons that warp up and down rapidly
+	- motd_2 is ignored? client displays "motd_1 - v{version}", where the
+	appended version text is considered part of motd_1 for color code processing
+	- motd_2 seems to mainly be used to return the server software in use (e.g. PocketMine-MP)`);
 }
 
 function getDefaultPort(args) {
@@ -120,7 +120,7 @@ function getDefaultPort(args) {
 async function pingJavaServer(host, port, timeout) {
 	const data = await pingJava(host, { port, timeout });
 	console.log(`Host: ${host}
-Version: ${data.version?.name} (protocol: ${data.version?.protocol})
+Version: ${data.version.name} (protocol: ${data.version.protocol})
 Players: ${data.players?.online}/${data.players?.max}
 Description: ${
 		typeof data.description === "string"
@@ -133,8 +133,8 @@ async function pingBedrockServer(host, port, timeout) {
 	const data = await pingBedrock(host, { port, timeout });
 	console.log(`Host: ${host}
 Edition: ${data.edition}
-Version: ${data.version.minecraftVersion} (protocol: ${data.version.protocolVersion})
+Version: ${data.version.minecraft} (protocol: ${data.version.protocol})
 Players: ${data.players.online}/${data.players.max}
 Name: ${data.name}
-Gamemode: ${data.gameMode}`);
+Gamemode: ${data.gamemode}`);
 }
