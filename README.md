@@ -6,8 +6,6 @@ A simple and efficient JavaScript library for pinging Minecraft servers. It supp
 
 `@minescope/mineping` automatically resolves SRV records for Java servers and parses rich status data, including MOTD, player counts, version info, and server icons. Comes with full TypeScript support.
 
-*Mirror on my [<img src="https://git.zeldon.ru/assets/img/logo.svg" align="center" width="20" height="20"/> Git](https://git.zeldon.ru/zeldon/mineping)*
-
 ## Features
 
 - **Dual Protocol Support:** Ping both Java and Bedrock servers with a consistent API.
